@@ -12,7 +12,7 @@ import torch.optim as optim
 
 from utils import CityscapesTrainDataset, CityscapesLabelEncoder, CityscapesDataset, \
                   KittiLaneLabelEncoder, KittiTrainDataset, KittiLaneDataset, \
-                  Trainer, Meter, UnetResNet, FPN, load_train_config
+                  Trainer, Meter, UnetResNet, load_train_config
 
 warnings.filterwarnings("ignore")
 seed = 69
@@ -40,23 +40,15 @@ if __name__ == "__main__":
         trainset, valset = train_dataset.get_paths()
         image_dataset = CityscapesDataset(**DATASET)
 
-    if MODEL["mode"] == "UNET":
-        model = UnetResNet(encoder_name=MODEL["backbone"], 
-                           num_classes=MODEL["num_classes"], 
-                           input_channels=3, 
-                           num_filters=32, 
-                           Dropout=0.3, 
-                           res_blocks_dec=MODEL["unet_res_blocks_decoder"])
+    if MODEL["mode"] == 'Unet':
+      model = UnetResNet(encoder_name=MODEL["backbone"], 
+                       num_classes=MODEL["num_classes"], 
+                       input_channels=3, 
+                       num_filters=32, 
+                       Dropout=0.3, 
+                       res_blocks_dec=MODEL["unet_res_blocks_decoder"])
 
-    elif MODEL["mode"] == "FPN":
-        model = FPN(encoder_name=MODEL["backbone"],
-                    decoder_pyramid_channels=256,
-                    decoder_segmentation_channels=128,
-                    classes=MODEL["num_classes"],
-                    dropout=0.3,
-                    activation='sigmoid',
-                    final_upsampling=4,
-                    decoder_merge_policy='add')
+    
     else:
         raise ValueError('Model type is not correct: `{}`.'.format(MODEL["mode"]))
 

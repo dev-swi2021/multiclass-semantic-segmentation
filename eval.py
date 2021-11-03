@@ -14,7 +14,7 @@ import cv2
 import torch
 from torch.utils.data import DataLoader
 
-from utils import Meter, UnetResNet, FPN, TTAWrapper, load_train_config, CityscapesTestDataset, torch2np, \
+from utils import Meter, UnetResNet, TTAWrapper, load_train_config, CityscapesTestDataset, torch2np, \
                   KittiTrainDataset, KittiTestDataset, KittiLaneDataset, \
                   CityscapesTrainDataset, CityscapesDataset, open_img
 
@@ -77,16 +77,6 @@ if __name__ == "__main__":
                            num_filters=32, 
                            Dropout=0.2, 
                            res_blocks_dec=MODEL["unet_res_blocks_decoder"])
-
-    elif MODEL["mode"] == "FPN":
-        model = FPN(encoder_name=MODEL["backbone"],
-                    decoder_pyramid_channels=256,
-                    decoder_segmentation_channels=128,
-                    classes=MODEL["num_classes"],
-                    dropout=0.2,
-                    activation='sigmoid',
-                    final_upsampling=4,
-                    decoder_merge_policy='add')
     else:
         raise ValueError('Model type is not correct: `{}`.'.format(MODEL["mode"]))
 

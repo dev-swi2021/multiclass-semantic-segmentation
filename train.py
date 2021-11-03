@@ -40,7 +40,7 @@ if __name__ == "__main__":
         trainset, valset = train_dataset.get_paths()
         image_dataset = CityscapesDataset(**DATASET)
 
-    if MODEL["mode"] == 'Unet':
+    if MODEL["mode"] == 'UNET':
       model = UnetResNet(encoder_name=MODEL["backbone"], 
                        num_classes=MODEL["num_classes"], 
                        input_channels=3, 
